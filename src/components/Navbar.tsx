@@ -5,15 +5,15 @@ const Navbar = () =>  {
 return(
   <>
     <View style={styles.container}>
-      <View>
+      <View style={styles.logoBox}>
         <Text style={styles.text1}>Easy Dinner</Text>
       </View>
-      <View>
+      <View style={styles.userBox}>
         <Text style={styles.text1}>User</Text>
       </View>
-      <View>
+      {/* <View>
         <TextInput style={styles.input}/>
-      </View>
+      </View> */}
     </View>
   </>
 )
@@ -22,21 +22,34 @@ return(
 const styles = StyleSheet.create({
   container: {
     paddingTop: 50,
-    paddingHorizontal: 20,
-    paddingBottom: 10,
-    backgroundColor: "red"
+    paddingHorizontal: 40,
+    backgroundColor: "#F04226", 
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    // alignContent: 'center',
+    // alignItems: 'center',
   },
-  input: {
-    flex: 0,
-    height: 30,
-    margin: 2,
-    marginHorizontal: 60,
-    borderWidth: 1,
-    padding: 20,
-    backgroundColor: "white"
-  },
+  logoBox: {
+   height: 50,
+   justifyContent: 'center',
+  }, 
+  userBox: {
+    height: 50,
+    justifyContent: 'center',
+  }, 
+  // input: {
+  //   flex: 0,
+  //   height: 30,
+  //   margin: 2,
+  //   marginHorizontal: 60,
+  //   borderWidth: 1,
+  //   padding: 20,
+  //   backgroundColor: "white"
+  // },
   text1: {
     color: "white",
+    fontSize: 20
   }
 })
 

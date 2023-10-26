@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Image, ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import { Image, Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import Pasta from "../../assets/Pasta.webp";
 
 
@@ -43,13 +43,20 @@ const HomePage = () => {
   return(
     <>
       <ScrollView style={styles.container}>
-        <Text></Text>
         <View style={styles.box}>
+          <Text style={styles.headerText}>Today's Easy Dinner: </Text>
           <View>
             <Image source={Pasta} style={styles.image}/>
           </View>
-          <Text>Today {dinnerToday?.recipe_Name} would be great!</Text>
-          <Text> {dinnerToday?.description} sounds great!</Text>
+          <Text style={styles.headerText}>{dinnerToday?.recipe_Name} </Text>
+          <Text style={styles.descriptionText}> {dinnerToday?.description} sounds great!</Text>
+          <Pressable 
+            onPress={() => chooseDinner(listOfRecipes)}
+            style={styles.button}>
+              <Text>
+                New Dinner
+              </Text>
+          </Pressable>
         </View>
         <View style={styles.box}>
           <Text>Open up App.js to start working on your app!</Text>
@@ -73,21 +80,36 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   box: {
-    backgroundColor: 'grey',
+    backgroundColor: '#8D8387',
     margin: 10,
     alignItems: 'center',
-    padding: 30,
-    borderRadius: 30
+    padding: 15,
+    borderRadius: 15
     // justifyContent: 'center',
   },
-  // imageBox: {
-  //   maxWidth: 40,
-  //   maxHeight: 40
-  // }, 
   image: {
     resizeMode: "cover",
     height: 200,
-    width: 250
+    width: 300
+  }, 
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#36A869',
+  }, 
+  headerText: {
+    fontSize: 20, 
+    fontWeight: 'bold',
+    paddingVertical: 10
+  },
+  descriptionText: {
+    fontSize: 15, 
+    fontWeight: 'bold',
+    paddingBottom: 15
   }
 });
 

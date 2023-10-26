@@ -7,8 +7,7 @@ return(
     <View style={styles.container}>
       <Text style={styles.text1}>Home</Text>
       <Text style={styles.text1}>Dinners</Text>
-      <Text style={styles.text1}>Something</Text>
-      <Text style={styles.text1}>Home</Text>
+      <Text style={styles.text1}>Settings</Text>
     </View>
   </>
 )
@@ -17,7 +16,7 @@ return(
 const styles = StyleSheet.create({
   container: {
     padding: 30,
-    backgroundColor: 'red',
+    backgroundColor: '#ad2c39',
     flexDirection: 'row',
     alignItems: "center",
     justifyContent: "center" 
@@ -25,6 +24,8 @@ const styles = StyleSheet.create({
   text1: {
     color: "white",
     padding: 10,
+    paddingHorizontal: 30,
+    fontSize: 20
   }
 })
 
