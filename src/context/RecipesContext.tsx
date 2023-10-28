@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import { getRecipes } from "../services/GetRecipes";
 
-
 interface Recipe {
   recipe_Id?: number;
   recipe_Name: string;
@@ -12,7 +11,7 @@ export const RecipesContext = createContext<{recipeList: Recipe[]}>({
   recipeList: [],
 });
 
-export const RecipesProvider = () => {
+export const RecipesProvider = ({children}: {children: React.ReactNode}) => {
   const [recipeList, SetRecipeList] = useState<Array<Recipe>>([]);
   
   useEffect(() => {
@@ -26,7 +25,7 @@ export const RecipesProvider = () => {
 
   const value  = { recipeList }; 
   return (
-    <RecipesContext.Provider value={value}></RecipesContext.Provider>
+    <RecipesContext.Provider value={value}>{children}</RecipesContext.Provider>
   )
 };
 

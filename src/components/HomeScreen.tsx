@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {
   Button,
+  Dimensions,
   Image,
   Pressable,
   ScrollView,
@@ -9,9 +10,8 @@ import {
   View,
 } from "react-native";
 import Pasta from "../../assets/Pasta.webp";
-import Footer from "../navigation/MyTabBar";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import MyTabBar from "../navigation/MyTabBar";
+import { RecipesContext } from "../context/RecipesContext";
 
 interface Recipe {
   recipe_Id?: number;
@@ -27,8 +27,9 @@ type StackParamList = {
 type Props = NativeStackScreenProps<StackParamList>;
 
 const HomeScreen = ({ navigation }: Props) => {
-  const [listOfRecipes, setListofRecipes] = useState<Array<Recipe>>([]);
   const [dinnerToday, setDinnerToday] = useState<Recipe>();
+  const { recipeList } = useContext(RecipesContext)
+
 
   const chooseDinner = (recipes: Array<Recipe>) => {
     const randomIndex = Math.floor(Math.random() * recipes.length);
@@ -39,102 +40,95 @@ const HomeScreen = ({ navigation }: Props) => {
       : setDinnerToday({ recipe_Name: "PastaAgain" });
   };
 
-  const fetchedRecipesData = async () => {
-    try {
-      const response = await fetch("http://192.168.0.25:7166/api/Recipes");
-      const data = await response.json();
-      setListofRecipes(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
 
   useEffect(() => {
-    fetchedRecipesData();
-  }, []);
-
-  useEffect(() => {
-    chooseDinner(listOfRecipes);
-  }, [listOfRecipes]);
+    recipeList ? chooseDinner(recipeList) : undefined; 
+  }, [recipeList]);
 
   return (
-    <>
-      <ScrollView style={styles.container}>
-        <View style={styles.box}>
+      <View style={styles.container}>
+        <View style={styles.dinnerBox}>
           <Text style={styles.headerText}>Today's Easy Dinner: </Text>
           <View>
             <Image source={Pasta} style={styles.image} />
           </View>
-          <Text style={styles.headerText}>{dinnerToday?.recipe_Name} </Text>
+          <Text style={styles.dinnerText}>{dinnerToday?.recipe_Name} </Text>
           <Text style={styles.descriptionText}>
             {" "}
             {dinnerToday?.description} sounds great!
           </Text>
+        </View>
+        <View style={styles.buttonBox}>
           <Pressable
-            onPress={() => chooseDinner(listOfRecipes)}
+            onPress={() => chooseDinner(recipeList)}
             style={styles.button}
           >
-            <Text>New Dinner</Text>
+            <Text style={styles.buttonText}>I want something else!</Text>
           </Pressable>
         </View>
-        <View style={styles.box}>
-          <Text>Open up App.js to start working on your app!</Text>
-          <Button
-            title="Go to Dinners"
-            onPress={() => navigation.navigate("Dinners")}
-          />
-        </View>
-        <View style={styles.box}>
-          <Text>Open up App.js to start working on your app!</Text>
-        </View>
-        <View style={[styles.box, { backgroundColor: "green" }]}>
-          <Text>Open up App.js to start working on your app!</Text>
-        </View>
-      </ScrollView>
-      {/* <MyTabBar /> */}
-    </>
+      </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
-    margin: 5,
-    flexDirection: "column",
+    backgroundColor: "#ea6947",
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
   },
-  box: {
-    backgroundColor: "#8D8387",
+  dinnerBox: {
+    height: '55%',
+    // flex: 1,
+    backgroundColor: "white",
     margin: 10,
     alignItems: "center",
-    padding: 15,
+    padding: 25,
     borderRadius: 15,
-    // justifyContent: 'center',
   },
   image: {
     resizeMode: "cover",
     height: 200,
     width: 300,
   },
+  headerText: {
+    fontSize: 27,
+    fontWeight: "bold",
+    paddingVertical: 20,
+  },
+  dinnerText: {
+    fontSize: 30,
+    fontWeight: "bold",
+    paddingVertical: 10,
+  },
+  descriptionText: {
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingBottom: 15,
+  },
+  buttonBox: {
+    height: '20%',
+    // flex: 0,
+    backgroundColor: "white",
+    margin: 10,
+    alignItems: "center",
+    justifyContent: 'center',
+    borderRadius: 15,
+  },
   button: {
     alignItems: "center",
     justifyContent: "center",
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
+    borderRadius: 15,
+    height: '40%',
     backgroundColor: "#36A869",
   },
-  headerText: {
+  buttonText: {
     fontSize: 20,
-    fontWeight: "bold",
-    paddingVertical: 10,
-  },
-  descriptionText: {
-    fontSize: 15,
-    fontWeight: "bold",
-    paddingBottom: 15,
-  },
+    fontWeight: 'bold'
+  }
 });
 
 export default HomeScreen;
